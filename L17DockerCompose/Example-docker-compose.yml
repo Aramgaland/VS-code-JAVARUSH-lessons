@@ -1,0 +1,36 @@
+
+
+version: '3.9'  # версия синтаксиса докер компос
+services:
+  web:  # тут может быть сервис postgress или fastapi 
+    build: .   # точка указывает что докер файл находится в каталоге\директории 
+    command: python manage.py runserwer 0.0.0.0:8000   # "эта команда будет в большем приоритете"
+    volumes:
+      - .:/app
+    ports:          #Пробрасываем порты
+      - 8000:8000
+    
+    depends_on:   # ЕСЛИ НАМ НУЖНО ЧТОБЫ ОДИН СЕРВИС ЗАПУСТИЛСЯ РАНЬШЕ ЧЕМ ДРУГОЙ
+      - db
+
+  db:  # Data Nase  параметры базы данных
+    image: postgress:17  # выбираем тип базы данных и его версию
+
+    restart: always   # для рестарта если что то пойдет не так
+
+    environment:  # указание переменной окружения которую запустим из postgress
+      POSTGRES_USER: postgress
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+
+    volumes: # аказываем куда сохраним данные контейнера
+      - pgdata:/var/lib/postgresql/data
+
+    
+
+
+volumes:
+    
+
+
+networks:

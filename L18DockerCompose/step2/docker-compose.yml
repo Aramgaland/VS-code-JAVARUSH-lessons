@@ -1,0 +1,7 @@
+services:
+  secondapp:
+    build: . 
+    environment:
+      TEXT: ${TEXT}
+
+  
